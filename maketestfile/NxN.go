@@ -21,12 +21,13 @@ func main() {
 		cube = 200
 	}
 	zfill = len(strconv.Itoa(cube))
+	arg = arg + " "
 	for i := 1; i <= cube; i++ {
-		fmt.Println(fmt.Sprintf("%0*d", zfill, i), strings.Repeat("width ", cube))
+		fmt.Printf("%0*d %v\n", zfill, i, strings.Repeat(arg, cube))
 	}
 }
 
 /*
-go run NxN.go > text.txt
-go run NxN.go num > text.txt
+./NxN.go > text.txt 41K
+./NxN.go 9876 > text.txt 466M
 */

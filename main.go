@@ -9,6 +9,13 @@ import (
 
 // towith return string adjusted to max width TODO unicode works?
 func towidth(s string, w int) string {
+	/*func towidth(s string, w int) byte {
+	var builder strings.Builder
+	for i := 1; i < w; i++ {
+		builder.WriteString(string(s[i]))
+	}
+	builder.WriteString("...")
+	return builder.String()*/
 	if len(s) > w {
 		w -= 3
 		var builder strings.Builder
@@ -36,6 +43,7 @@ func parseinput(f *os.File) {
 			fmt.Println(towidth(input.Text(), width))
 		}
 	}
+	//////// end
 	linesleft = counter - height
 	repCount = (width - len(string(linesleft)) - len(msg) - 2)
 	if repCount < 0 {
