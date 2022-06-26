@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"os/exec"
 	"strconv"
@@ -31,17 +32,20 @@ func consoleSize() (int, int) {
 	cmd := exec.Command("stty", "size")
 	cmd.Stdin = os.Stdin
 	out, err := cmd.Output()
-
+	if err != nil { //TODO
+		log.Fatal(err)
+	}
 	s := string(out) // []uint8
 	s = strings.TrimSpace(s)
 	splits := strings.Split(s, " ")
 
 	if heigth, err = strconv.Atoi(splits[0]); err != nil {
-		heigth = althw("lines")
+		//heigth = althw("lines")
+		heigth = 20
 	}
-
 	if width, err = strconv.Atoi(splits[1]); err != nil {
-		width = althw("cols")
+		//width = althw("cols")
+		width = 80
 	}
 
 	// half of terminal cap
