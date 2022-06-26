@@ -9,13 +9,6 @@ import (
 
 // towith return string adjusted to max width TODO unicode works?
 func towidth(s string, w int) string {
-	/*func towidth(s string, w int) byte {
-	var builder strings.Builder
-	for i := 1; i < w; i++ {
-		builder.WriteString(string(s[i]))
-	}
-	builder.WriteString("...")
-	return builder.String()*/
 	if len(s) > w {
 		w -= 3
 		var builder strings.Builder
@@ -29,12 +22,11 @@ func towidth(s string, w int) string {
 // parseinput in height and width bounderies
 func parseinput(f *os.File) {
 	var (
-		heightraw, width int    = consoleSize() // 10 80 TODO fallback
-		height           int    = heightraw - 3 // minus window border
-		msg              string = "more lines."
-		counter          int
-		linesleft        int
-		repCount         int
+		height, width int    = consoleSize()
+		msg           string = "more lines."
+		counter       int
+		linesleft     int
+		repCount      int
 	)
 	input := bufio.NewScanner(f)
 	for input.Scan() {
@@ -42,8 +34,9 @@ func parseinput(f *os.File) {
 		if counter <= height {
 			fmt.Println(towidth(input.Text(), width))
 		}
+
 	}
-	//////// end
+	// end block
 	linesleft = counter - height
 	repCount = (width - len(string(linesleft)) - len(msg) - 2)
 	if repCount < 0 {
@@ -72,5 +65,4 @@ func FilesOrStdin() {
 
 func main() {
 	FilesOrStdin()
-
 }

@@ -1,36 +1,59 @@
 package main
 
 import (
-	"log"
 	"os"
 	"os/exec"
 	"strconv"
 	"strings"
 )
-
-func consoleSize() (int, int) {
-	cmd := exec.Command("stty", "size")
-	// fall back cmd and values 10 80
-	//cmd := exec.Command("stput" "cols")
-	//cmd := exec.Command("stput" "lines")
+// althw alternative executables and fallback values
+func althw(cmdend string) int {
+	cmd := exec.Command("tput", cmdend)
 	cmd.Stdin = os.Stdin
-	out, err := cmd.Output()
-	if err != nil {
-		log.Fatal(err) // TODO  Errorf(format string, a ...any) error or default values
-	}
-
+	out, _ := cmd.Output()
 	s := string(out)
 	s = strings.TrimSpace(s)
-	sArr := strings.Split(s, " ")
+	if i, err := strconv.Atoi(s); err == nil {
+		return i
+	}
+	if cmdend == "lines" {
+		return 24
+	}
+	return 80
 
-	heigth, err := strconv.Atoi(sArr[0])
-	if err != nil {
-		log.Fatal(err)
+}
+
+func consoleSize() (int, int) {
+	var (
+		heigth, width int
+	)
+	cmd := exec.Command("stty", "size")
+	cmd.Stdin = os.Stdin
+	out, err := cmd.Output()
+
+	s := string(out) // []uint8
+	s = strings.TrimSpace(s)
+	splits := strings.Split(s, " ")
+
+	if heigth, err = strconv.Atoi(splits[0]); err == nil {
+		heigth = heigth
+	} else {
+		heigth = althw("lines")
 	}
 
-	width, err := strconv.Atoi(sArr[1])
-	if err != nil {
-		log.Fatal(err)
+	if width, err = strconv.Atoi(splits[1]); err == nil {
+		width = width
+	} else {
+		width = althw("cols")
+		width = 80
+	}
+
+	// half of terminal cap
+	switch {
+	case (heigth / 2) > 24:
+		heigth = heigth / 2
+	default:
+		heigth = 24
 	}
 	return heigth, width
 }
