@@ -9,8 +9,8 @@ import (
 
 func main() {
 	var (
-		cube, zfill int
-		arg         string
+		cube, zfill    int
+		arg, repstring string
 	)
 	switch {
 	case len(os.Args[1:]) != 0:
@@ -23,8 +23,9 @@ func main() {
 		cube, arg = 200, "200 "
 	}
 	zfill = len(strconv.Itoa(cube))
+	repstring = strings.Repeat(arg, cube)
 	for i := 1; i <= cube; i++ {
-		fmt.Printf("%0*d %v\n", zfill, i, strings.Repeat(arg, cube))
+		fmt.Printf("%0*d %v\n", zfill, i, repstring)
 	}
 }
 

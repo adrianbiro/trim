@@ -18,7 +18,7 @@ func althw(cmdend string) int {
 		return i
 	}
 	if cmdend == "lines" {
-		return 24
+		return 20
 	}
 	return 80
 
@@ -46,10 +46,10 @@ func consoleSize() (int, int) {
 
 	// half of terminal cap
 	switch {
-	case (heigth / 2) > 24:
+	case (heigth / 2) > 20:
 		heigth = heigth / 2
 	default:
-		heigth = 24
+		heigth = 20
 	}
 	return heigth, width
 }
