@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 )
+
 // althw alternative executables and fallback values
 func althw(cmdend string) int {
 	cmd := exec.Command("tput", cmdend)
@@ -35,17 +36,12 @@ func consoleSize() (int, int) {
 	s = strings.TrimSpace(s)
 	splits := strings.Split(s, " ")
 
-	if heigth, err = strconv.Atoi(splits[0]); err == nil {
-		heigth = heigth
-	} else {
+	if heigth, err = strconv.Atoi(splits[0]); err != nil {
 		heigth = althw("lines")
 	}
 
-	if width, err = strconv.Atoi(splits[1]); err == nil {
-		width = width
-	} else {
+	if width, err = strconv.Atoi(splits[1]); err != nil {
 		width = althw("cols")
-		width = 80
 	}
 
 	// half of terminal cap
