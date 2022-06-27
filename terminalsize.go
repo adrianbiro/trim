@@ -1,5 +1,23 @@
 package main
 
+import "golang.org/x/term"
+
+func ConsoleSize() (width int, height int) {
+	width, height, err := term.GetSize(0)
+	if err != nil {
+		width, height = 80, 20
+	}
+	// set half height or min
+	switch {
+	case height/2 > 20:
+		height = height / 2
+	default:
+		height = 20
+	}
+	return
+}
+
+/* first draft with fallback executables
 import (
 	"log"
 	"os"
@@ -7,7 +25,6 @@ import (
 	"strconv"
 	"strings"
 )
-
 // althw alternative executables and fallback values
 func althw(cmdend string) int {
 	cmd := exec.Command("tput", cmdend)
@@ -25,9 +42,9 @@ func althw(cmdend string) int {
 
 }
 
-func consoleSize() (int, int) {
+func oldconsoleSize() (int, int) {
 	var (
-		heigth, width int
+		height, width int
 	)
 	cmd := exec.Command("stty", "size")
 	cmd.Stdin = os.Stdin
@@ -39,9 +56,9 @@ func consoleSize() (int, int) {
 	s = strings.TrimSpace(s)
 	splits := strings.Split(s, " ")
 
-	if heigth, err = strconv.Atoi(splits[0]); err != nil {
-		//heigth = althw("lines")
-		heigth = 20
+	if height, err = strconv.Atoi(splits[0]); err != nil {
+		//height = althw("lines")
+		height = 20
 	}
 	if width, err = strconv.Atoi(splits[1]); err != nil {
 		//width = althw("cols")
@@ -50,10 +67,11 @@ func consoleSize() (int, int) {
 
 	// half of terminal cap
 	switch {
-	case (heigth / 2) > 20:
-		heigth = heigth / 2
+	case (height / 2) > 20:
+		height = height / 2
 	default:
-		heigth = 20
+		height = 20
 	}
-	return heigth, width
+	return height, width
 }
+*/

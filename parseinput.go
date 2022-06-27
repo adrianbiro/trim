@@ -3,13 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"golang.org/x/term"
 	"os"
 	"strings"
 )
 
 // towith return string adjusted to max width
-func towidth(s string, w int) string {
+func ToWidth(s string, w int) string {
 	if len(s) > w {
 		w -= 3
 		var builder strings.Builder
@@ -26,26 +25,25 @@ func towidth(s string, w int) string {
 	return s
 }
 
-// parseinput in height and width bounderies
-func parseinput(f *os.File) {
+// ParseInput in height and width bounderies
+func ParseInput(f *os.File) {
 	var (
-		height, width          int    //= consoleSize()
+		width, height          int    = ConsoleSize()
 		msg                    string = "more lines."
 		counter                int
 		linesleft, lenmsg      int
 		repCount, lenlinesleft int
 	)
-	width, height, _ = term.GetSize(0) //todo err, fallback in file
 	input := bufio.NewScanner(f)
 	for input.Scan() {
 		counter++
 		if counter <= height {
-			fmt.Println(towidth(input.Text(), width))
+			fmt.Println(ToWidth(input.Text(), width))
 		}
 	}
 	// end block
 	linesleft = counter - height
-	lenlinesleft = len(string(linesleft))
+	lenlinesleft = len(string(rune(linesleft)))
 	lenmsg = len(msg)
 	repCount = (width - lenlinesleft - lenmsg - 2) // len of spaces
 	if repCount < 0 {
@@ -58,8 +56,7 @@ func parseinput(f *os.File) {
 func FilesOrStdin() {
 	files := os.Args[1:]
 	if len(files) == 0 {
-		parseinput(os.Stdin) // FIXME e0xit status 1 file arg works
-		// consoleSize() is the problem, init make no difference
+		ParseInput(os.Stdin) // TODO term.GetSize() return -1 -1 err when stdin
 		return
 	}
 	for _, arg := range files {
@@ -68,7 +65,7 @@ func FilesOrStdin() {
 			fmt.Fprintf(os.Stderr, "%v: %v\n", os.Args[0], err)
 			continue
 		}
-		parseinput(f)
+		ParseInput(f)
 		f.Close()
 	}
 }
