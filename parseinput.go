@@ -28,11 +28,8 @@ func ToWidth(s string, w int) string {
 // ParseInput in height and width bounderies
 func ParseInput(f *os.File) {
 	var (
-		width, height          int    = ConsoleSize()
-		msg                    string = "more lines."
-		counter                int
-		linesleft, lenmsg      int
-		repCount, lenlinesleft int
+		width, height int = ConsoleSize()
+		counter       int
 	)
 	input := bufio.NewScanner(f)
 	for input.Scan() {
@@ -42,14 +39,17 @@ func ParseInput(f *os.File) {
 		}
 	}
 	// end block
-	linesleft = counter - height
-	lenlinesleft = len(string(rune(linesleft)))
-	lenmsg = len(msg)
-	repCount = (width - lenlinesleft - lenmsg - 2) // len of spaces
-	if repCount < 0 {
-		repCount = 0
+	if counter > height {
+		msg := "more lines."
+		lenmsg := len(msg)
+		linesleft := counter - height
+		lenlinesleft := len(string(rune(linesleft)))
+		repCount := (width - lenlinesleft - lenmsg - 2) // len of spaces
+		if repCount < 0 {
+			repCount = 0
+		}
+		fmt.Printf("%v%v %v\n", strings.Repeat(" ", repCount), linesleft, msg)
 	}
-	fmt.Printf("%v%v %v\n", strings.Repeat(" ", repCount), linesleft, msg)
 }
 
 // FilesOrStdin read from files or stdin
