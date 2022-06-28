@@ -50,6 +50,7 @@ func ParseInput(f *os.File) {
 		}
 		fmt.Printf("%v%v %v\n", strings.Repeat(" ", repCount), linesleft, msg)
 	}
+	fmt.Printf("%v lines in total.\n", counter)
 }
 
 // FilesOrStdin read from files or stdin

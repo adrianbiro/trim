@@ -2,6 +2,7 @@ package main
 
 import "golang.org/x/term"
 
+// todo flags for w and h
 func ConsoleSize() (width int, height int) {
 	width, height, err := term.GetSize(0)
 	if err != nil {
