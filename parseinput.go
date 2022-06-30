@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"unicode/utf8"
 )
 
 // towith return string adjusted to max width
 func ToWidth(s string, w int) string {
 	if len(s) > w {
-		w -= 3
+		w -= 2
 		var builder strings.Builder
 		for i, j := range s {
 			switch {
@@ -40,15 +41,12 @@ func ParseInput(f *os.File) {
 	}
 	// end block
 	if counter > height {
-		msg := "more lines."
-		lenmsg := len(msg)
-		linesleft := counter - height
-		lenlinesleft := len(string(rune(linesleft)))
-		repCount := (width - lenlinesleft - lenmsg - 2) // len of spaces
+		endmsg := fmt.Sprintf("%v more lines.", counter-height)
+		repCount := width - utf8.RuneCountInString(endmsg)
 		if repCount < 0 {
 			repCount = 0
 		}
-		fmt.Printf("%v%v %v\n", strings.Repeat(" ", repCount), linesleft, msg)
+		fmt.Printf("%v%v\n", strings.Repeat(" ", repCount), endmsg)
 	}
 	fmt.Printf("%v lines in total.\n", counter)
 }

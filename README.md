@@ -19,17 +19,20 @@ $ stat zmaz.txt
 $ ls -lh zmaz.txt 
 -rw-r--r-- 1 adrian adrian 4.1G Jun 28 11:57 zmaz.txt
 
+
 # sh/awk version
-$ time cat zmaz.txt | trim.sh
-real	0m19.603s
-user	0m19.743s
-sys	0m9.862s
-$ time cat zmaz.txt | ./trimgo 
-real	0m1.628s
-user	0m0.375s
-sys	0m2.092s
+$ time trim.sh < zmaz.txt
+real	0m18.361s
+user	0m19.352s
+sys	    0m5.381s
+
+$ time ./trimgo < zmaz.txt
+real	0m0.714s
+user	0m0.235s
+sys	    0m0.486s
+
 $ time ./trimgo zmaz.txt
-real	0m0.712s
-user	0m0.270s
-sys	0m0.451s
+real	0m0.714s
+user	0m0.260s
+sys	    0m0.461s
 ```
