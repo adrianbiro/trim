@@ -65,6 +65,6 @@ func FilesOrStdin() {
 			continue
 		}
 		ParseInput(f)
-		f.Close()
+		defer f.Close()
 	}
 }
